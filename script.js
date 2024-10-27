@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // Check if the input is empty
         if (taskText === "") {
             alert("Please enter a task."); // Alert if the input is empty
-            return;
+            return; // Exit the function
         }
 
         // Create a new list item
