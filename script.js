@@ -41,4 +41,38 @@ document.addEventListener('DOMContentLoaded', function () {
         li.appendChild(removeButton); // Add button to the <li>
 
         // Append the list item to the task list
-        taskList.appendChild(li); // Add t
+        taskList.appendChild(li); // Add the <li> to the task list
+
+        // Clear the task input field and save to Local Storage if applicable
+        if (save) {
+            taskInput.value = ""; // Reset the input field to empty
+            saveTaskToStorage(taskTextTrimmed); // Save to Local Storage
+        }
+    }
+
+    // Function to save a task to Local Storage
+    function saveTaskToStorage(taskText) {
+        const storedTasks = JSON.parse(localStorage.getItem('tasks') || '[]'); // Retrieve existing tasks
+        storedTasks.push(taskText); // Add the new task to the array
+        localStorage.setItem('tasks', JSON.stringify(storedTasks)); // Save the updated array to Local Storage
+    }
+
+    // Function to remove a task from Local Storage
+    function removeTaskFromStorage(taskText) {
+        let storedTasks = JSON.parse(localStorage.getItem('tasks') || '[]'); // Retrieve existing tasks
+        storedTasks = storedTasks.filter(task => task !== taskText); // Remove the task
+        localStorage.setItem('tasks', JSON.stringify(storedTasks)); // Update Local Storage
+    }
+
+    // Attach event listeners
+    addButton.addEventListener('click', () => addTask()); // Call addTask on button click
+    taskInput.addEventListener('keypress', function (event) {
+        // Allow tasks to be added by pressing the "Enter" key
+        if (event.key === 'Enter') {
+            addTask(); // Call addTask if Enter key is pressed
+        }
+    });
+
+    // Load tasks from Local Storage when the page loads
+    loadTasks(); // Ensure tasks are loaded when the page is accessed
+});
